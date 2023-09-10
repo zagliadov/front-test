@@ -1,7 +1,6 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes, FC } from 'react';
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  type: string;
   name: string;
   id: string;
   autoComplete: string;
@@ -10,21 +9,20 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   classes?: string;
 }
 
-export function TextField({ type = "text", name, id, autoComplete, placeholder, label, classes, ...restProps }: TextFieldProps) {
+export const TextField: FC<TextFieldProps> = ({ name, id, autoComplete, placeholder, label, classes }) => {
   return (
     <div className={`${classes}`}>
       <div className="relative rounded-lg shadow-sm">
-        <div className="">
+        <div>
           <label className="text-gray-400 text-sm" htmlFor={name}>{label}</label>
           <input
-            type={type}
+            type="text"
             name={name}
             id={id}
-            autoComplete={autoComplete}
+            // autoComplete={autoComplete}
             className="block w-full pt-3 pb-3 rounded-lg border-0 py-1.5 pl-3 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             placeholder={placeholder}
             required
-            {...restProps}
           />
         </div>
       </div>

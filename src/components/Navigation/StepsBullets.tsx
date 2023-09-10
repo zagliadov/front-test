@@ -68,7 +68,7 @@ export default function StepsBullets() {
                           <span className="absolute h-4 w-4 rounded-full border-2 border-teal-500" />
                           <span className="relative block h-2 w-2 rounded-full bg-teal-500" />
                         </span>
-                        <span className="ml-3 text-sm font-medium text-black-600">
+                        <span className="ml-3 text-sm font-medium text-gray-600">
                           {step.name}
                         </span>
                       </span>

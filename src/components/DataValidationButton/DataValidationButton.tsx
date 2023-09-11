@@ -1,10 +1,14 @@
 "use client";
+
 import React from "react";
 
-export default function DataValidationButton() {
+interface IProps {
+  startDate: Date;
+}
+export default function DataValidationButton({ startDate }: IProps) {
 
   const dataValidation = () => {
-    console.log("validation");
+    console.log("validation", startDate);
   }
   return (
     <div className="flex justify-end">

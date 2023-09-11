@@ -1,16 +1,22 @@
 "use client";
-import React, { useState } from "react";
+
+import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 function formatDate(date: Date) {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Добавляем ноль в начало, если месяц состоит из одной цифры
-  const day = String(date.getDate()).padStart(2, "0"); // Добавляем ноль в начало, если день состоит из одной цифры
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${day}/${month}/${year}`;
-} 
-export default function DateInput() {
-  const [startDate, setStartDate] = useState(new Date());
+}
+
+interface IProps {
+  startDate: Date;
+  setStartDate: (date: Date) => void;
+}
+
+export default function DateInput({ startDate, setStartDate }: IProps) {
   return (
     <div className="flex flex-col relative rounded-lg shadow-sm text-gray-500 pt-5">
       <label className="text-gray-400 text-sm">Close Date</label>

@@ -1,7 +1,7 @@
 "use client";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const steps = [
   { name: "Property detail", href: "/", status: "" },

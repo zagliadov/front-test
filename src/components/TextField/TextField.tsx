@@ -10,6 +10,7 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   setter: any;
   property: string;
   classes?: string;
+  value: string;
 }
 
 export const TextField: FC<TextFieldProps> = ({
@@ -21,9 +22,10 @@ export const TextField: FC<TextFieldProps> = ({
   setter,
   property,
   classes,
+  value,
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>(value);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormPropertyData } from "../PropertyDetailForm/interface";
@@ -13,12 +13,14 @@ function formatDate(date: Date) {
 }
 
 interface IProps {
-  property: string;
   setter: (update: (prevState: FormPropertyData) => FormPropertyData) => void;
+  value: Date;
 }
 
-export default function DateInput({ property, setter }: IProps) {
-  const [startDate, setStartDate] = useState<Date>(new Date());
+export default function DateInput({ setter, value }: IProps) {
+  const initialDate = value ? new Date(value) : new Date();
+  const [startDate, setStartDate] = useState<Date>(initialDate);
+
   const handleDateChange = (date: Date) => {
     setStartDate(date);
     setter((prevState) => ({
@@ -26,6 +28,7 @@ export default function DateInput({ property, setter }: IProps) {
       startDate: date,
     }));
   };
+
   return (
     <div className="flex flex-col relative rounded-lg shadow-sm text-gray-500 pt-5">
       <label className="text-gray-400 text-sm">Close Date</label>

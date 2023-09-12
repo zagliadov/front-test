@@ -6,3 +6,7 @@ export interface FormPropertyData {
   postalCode: string;
   startDate: Date;
 }
+
+export interface NestedData {
+  [key: string]: FormPropertyData;
+}

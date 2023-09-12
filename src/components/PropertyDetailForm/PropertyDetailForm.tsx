@@ -5,17 +5,26 @@ import DataValidationButton from "../DataValidationButton/DataValidationButton";
 import DateInput from "../DateInput/DateInput";
 import LocationSelector from "../LocationSelector/LocationSelector";
 import { TextField } from "../TextField/TextField";
-import { FormPropertyData } from "./interface";
+import { FormPropertyData, NestedData } from "./interface";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 export default function PropertyDetailForm() {
-  const [formPropertyData, setFormPropertyData] = useState<FormPropertyData>({
+  const [value, setValue] = useLocalStorage("Data", {} as NestedData);
+  const propertyPage = value?.propertyPage;
+  
+  const defaultFormPropertyData: FormPropertyData = {
     propertyName: "",
     addressLine: "",
     selectedCountry: null,
     selectedCity: null,
     postalCode: "",
     startDate: new Date(),
-  });
+  };
+  
+  const [formPropertyData, setFormPropertyData] = useState<FormPropertyData>(
+    propertyPage || defaultFormPropertyData
+  );
+
   return (
     <>
       <div>
@@ -30,6 +39,7 @@ export default function PropertyDetailForm() {
           classes={"pt-4"}
           setter={setFormPropertyData}
           property={"propertyName"}
+          value={propertyPage?.propertyName}
         />
         <TextField
           name={"Address line"}
@@ -40,9 +50,14 @@ export default function PropertyDetailForm() {
           classes={"pt-4"}
           setter={setFormPropertyData}
           property={"addressLine"}
+          value={propertyPage?.addressLine}
         />
         <div className="flex items-center justify-between pt-4">
-          <LocationSelector setter={setFormPropertyData} />
+          <LocationSelector
+            setter={setFormPropertyData}
+            countryValue={propertyPage?.selectedCountry}
+            cityValue={propertyPage?.selectedCity}
+          />
           <div className="w-3/12">
             <TextField
               name={"ZIP/Postal Code"}
@@ -52,10 +67,14 @@ export default function PropertyDetailForm() {
               label={"ZIP/Postal Code"}
               setter={setFormPropertyData}
               property={"postalCode"}
+              value={propertyPage?.postalCode}
             />
           </div>
         </div>
-        <DateInput setter={setFormPropertyData} property={"startDate"} />
+        <DateInput
+          setter={setFormPropertyData}
+          value={propertyPage?.startDate}
+        />
       </div>
       <DataValidationButton
         formPropertyData={formPropertyData}

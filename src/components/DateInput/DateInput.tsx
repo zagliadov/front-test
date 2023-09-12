@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FormPropertyData } from "../PropertyDetailForm/interface";
 
 function formatDate(date: Date) {
   const year = date.getFullYear();
@@ -12,11 +13,19 @@ function formatDate(date: Date) {
 }
 
 interface IProps {
-  startDate: Date;
-  setStartDate: (date: Date) => void;
+  property: string;
+  setter: (update: (prevState: FormPropertyData) => FormPropertyData) => void;
 }
 
-export default function DateInput({ startDate, setStartDate }: IProps) {
+export default function DateInput({ property, setter }: IProps) {
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const handleDateChange = (date: Date) => {
+    setStartDate(date);
+    setter((prevState) => ({
+      ...prevState,
+      startDate: date,
+    }));
+  };
   return (
     <div className="flex flex-col relative rounded-lg shadow-sm text-gray-500 pt-5">
       <label className="text-gray-400 text-sm">Close Date</label>
@@ -24,7 +33,7 @@ export default function DateInput({ startDate, setStartDate }: IProps) {
         showIcon={false}
         selected={startDate}
         className="border rounded-lg p-1"
-        onChange={(date: Date) => setStartDate(date)}
+        onChange={handleDateChange}
         customInput={
           <div className="relative">
             <svg

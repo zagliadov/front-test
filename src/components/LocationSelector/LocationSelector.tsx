@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { SelectField } from "../SelectField/SelectField";
+import { FormPropertyData } from "../PropertyDetailForm/interface";
 
 type Country = {
   label: string;
@@ -33,17 +34,31 @@ const cities: Record<string, City[]> = {
   ],
 };
 
-export default function LocationSelector() {
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+interface IProps {
+  setter: (update: (prevState: FormPropertyData) => FormPropertyData) => void;
+}
+export default function LocationSelector({ setter }: IProps) {
+  const [selectedCountry, setSelectedCountry] = useState<string | null>("");
+  const [selectedCity, setSelectedCity] = useState<string | null>("");
 
   const handleCountryChange = (selectedCountryValue: string) => {
     setSelectedCountry(selectedCountryValue);
     setSelectedCity(null);
+
+    setter((prevState) => ({
+      ...prevState,
+      selectedCountry: selectedCountryValue,
+      selectedCity: null,
+    }));
   };
 
   const handleCityChange = (selectedCityValue: string) => {
     setSelectedCity(selectedCityValue);
+
+    setter((prevState) => ({
+      ...prevState,
+      selectedCity: selectedCityValue,
+    }));
   };
   return (
     <>

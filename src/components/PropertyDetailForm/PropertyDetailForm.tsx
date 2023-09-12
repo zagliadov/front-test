@@ -5,14 +5,17 @@ import DataValidationButton from "../DataValidationButton/DataValidationButton";
 import DateInput from "../DateInput/DateInput";
 import LocationSelector from "../LocationSelector/LocationSelector";
 import { TextField } from "../TextField/TextField";
+import { FormPropertyData } from "./interface";
 
 export default function PropertyDetailForm() {
-  const [propertyName, setPropertyName] = useState<string>("");
-  const [addressLine, setAddressLine] = useState<string>("");
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [postalCode, setPostalCode] = useState<string>("");
-  const [startDate, setStartDate] = useState(new Date());
+  const [formPropertyData, setFormPropertyData] = useState<FormPropertyData>({
+    propertyName: "",
+    addressLine: "",
+    selectedCountry: null,
+    selectedCity: null,
+    postalCode: "",
+    startDate: new Date(),
+  });
   return (
     <>
       <div>
@@ -25,8 +28,8 @@ export default function PropertyDetailForm() {
           placeholder={"Storage A"}
           label={"Property name"}
           classes={"pt-4"}
-          setter={setPropertyName}
-          property={propertyName}
+          setter={setFormPropertyData}
+          property={"propertyName"}
         />
         <TextField
           name={"Address line"}
@@ -35,11 +38,11 @@ export default function PropertyDetailForm() {
           placeholder={"3549 102nd Avenue Cranbrook, BC V1C 2R9"}
           label={"Address line"}
           classes={"pt-4"}
-          setter={setAddressLine}
-          property={addressLine}
+          setter={setFormPropertyData}
+          property={"addressLine"}
         />
         <div className="flex items-center justify-between pt-4">
-          <LocationSelector />
+          <LocationSelector setter={setFormPropertyData} />
           <div className="w-3/12">
             <TextField
               name={"ZIP/Postal Code"}
@@ -47,14 +50,17 @@ export default function PropertyDetailForm() {
               autoComplete={"on"}
               placeholder={"SE1 1AB"}
               label={"ZIP/Postal Code"}
-              setter={setPostalCode}
-              property={postalCode}
+              setter={setFormPropertyData}
+              property={"postalCode"}
             />
           </div>
         </div>
-        <DateInput setStartDate={setStartDate} startDate={startDate} />
+        <DateInput setter={setFormPropertyData} property={"startDate"} />
       </div>
-      <DataValidationButton startDate={startDate} />
+      <DataValidationButton
+        formPropertyData={formPropertyData}
+        from={"propertyPage"}
+      />
     </>
   );
 }

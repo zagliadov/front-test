@@ -1,3 +1,6 @@
+import ImportFileButton from "@/components/UnitMixTable/ImportFileButton/ImportFileButton";
+import ImportTemplateButton from "@/components/UnitMixTable/ImportTemplateButton/ImportTemplateButton";
+import UnitMixTable from "@/components/UnitMixTable/UnitMixTable";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
@@ -8,7 +11,14 @@ export const metadata: Metadata = {
 export default function UnitMixPage() {
   return (
     <div className="w-full h-full">
-      <span className="text-gray-400">UnitMixPage</span>
+      <div className="flex justify-between">
+        <h2 className="text-gray-600 font-medium">Rent roll</h2>
+        <div className="flex items-center">
+          <ImportTemplateButton />
+          <ImportFileButton />
+        </div>
+      </div>
+      <UnitMixTable/>
     </div>
   )
 }

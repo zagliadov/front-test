@@ -5,7 +5,7 @@ export default async function UnitMixTable() {
   const rentData = await getRent();
   return (
     <div>
-      <div className="border rounded-md w-full">
+      <div className="border rounded-md w-full h-[75vh] overflow-y-auto">
         <div className="pt-2">
           <div className="flex justify-around py-2">
             <span className="w-full pl-5">ID</span>
@@ -18,7 +18,7 @@ export default async function UnitMixTable() {
             <span className="w-full pl-5">SQFT/SQM</span>
           </div>
         </div>
-        <div className="h-[75vh] overflow-y-auto">
+        <div>
           {rentData &&
             rentData.map(
               ({
@@ -33,14 +33,16 @@ export default async function UnitMixTable() {
               }: any) => {
                 return (
                   <div key={id} className="flex justify-around">
-                    <span className="w-full border py-6 pl-5">{id}</span>
-                    <span className="w-full border py-6 pl-5">{type}</span>
-                    <span className="w-full border py-6 pl-5">${rent}</span>
-                    <span className="w-full border py-6 pl-5">{width}</span>
-                    <span className="w-full border py-6 pl-5">{length}</span>
-                    <span className="w-full border py-6 pl-5">{marketRent}</span>
-                    <span className="w-full border py-6 pl-4">{status}</span>
-                    <span className="w-full border py-6 pl-4">{sqft_sqm}</span>
+                    <span className="w-full border-t border-r py-6 pl-5">{id}</span>
+                    <span className="w-full border-t border-r py-6 pl-5">{type}</span>
+                    <span className="w-full border-t border-r py-6 pl-5">${rent}</span>
+                    <span className="w-full border-t border-r py-6 pl-5">{width}</span>
+                    <span className="w-full border-t border-r py-6 pl-5">{length}</span>
+                    <span className="w-full border-t border-r py-6 pl-5">
+                      {marketRent}
+                    </span>
+                    <span className="w-full border-t border-r py-6 pl-4">{status}</span>
+                    <span className="w-full border-t py-6 pl-4">{sqft_sqm}</span>
                   </div>
                 );
               }

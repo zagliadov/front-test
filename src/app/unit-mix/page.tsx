@@ -13,7 +13,7 @@ export default function UnitMixPage() {
     <div className="w-full h-full">
       <div className="flex justify-between">
         <h2 className="text-gray-600 font-medium">Rent roll</h2>
-        <div className="flex items-center">
+        <div className="flex items-center pb-4">
           <ImportTemplateButton />
           <ImportFileButton />
         </div>

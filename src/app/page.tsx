@@ -1,3 +1,5 @@
+"use client";
+import React from "react";
 import PropertyDetailForm from "@/components/PropertyDetailForm/PropertyDetailForm";
 import { Metadata } from "next/types";
 
@@ -8,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function PropertyDetailPage() {
   return (
-    <div className="flex flex-col h-full justify-between">
+    <div className="h-full">
       <PropertyDetailForm />
     </div>
   );

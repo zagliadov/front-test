@@ -23,7 +23,7 @@ export default function RootLayout({
             <div className="w-[25%] border-r">
               <StepsBullets />
             </div>
-            <div className="w-[75%] px-4 py-12 sm:px-6 lg:px-8">{children}</div>
+            <div className="w-[75%]">{children}</div>
           </div>
         </div>
       </body>

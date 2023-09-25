@@ -12,6 +12,7 @@ import { CustomDateInput } from "../CustomDateInput/CustomDateInput";
 import { ICitiesByCountry, ICity, ICountry, Inputs } from "@/helpers/interface";
 import * as _ from "lodash";
 import ContinueButton from "../ContinueButton/ContinueButton";
+import PageTitle from "../PageTitle/PageTitle";
 
 const countries: ICountry[] = [
   { label: "USA", value: "us" },
@@ -57,8 +58,6 @@ export default function PropertyDetailForm() {
       className="flex flex-col justify-between h-full text-black"
     >
       <Wrapper>
-        <h2 className="font-semibold text-xl text-black">Property details</h2>
-        <h3 className="font-medium text-lg pt-5 text-black">Property Detail</h3>
         <Wrapper classes={"pb-5 pt-2"}>
           <TextField
             register={register}
@@ -132,11 +131,6 @@ export default function PropertyDetailForm() {
       </Wrapper>
       <Wrapper classes={"flex justify-end"}>
         <ContinueButton goRoute={"/unit-mix"} />
-        {/* <input
-          type="submit"
-          className="bg-teal-950 text-white px-5 py-2 rounded-lg cursor-pointer"
-          value="Continue"
-        /> */}
       </Wrapper>
     </form>
   );

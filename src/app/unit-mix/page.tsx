@@ -1,5 +1,7 @@
 import ContinueButton from "@/components/ContinueButton/ContinueButton";
 import NavigateBackButton from "@/components/NavigateBackButton/NavigateBackButton";
+import PageTitle from "@/components/PageTitle/PageTitle";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
 import ImportFileButton from "@/components/UnitMixTable/ImportFileButton/ImportFileButton";
 import ImportTemplateButton from "@/components/UnitMixTable/ImportTemplateButton/ImportTemplateButton";
 import UnitMixTable from "@/components/UnitMixTable/UnitMixTable";
@@ -13,19 +15,19 @@ export const metadata: Metadata = {
 
 export default function UnitMixPage() {
   return (
-    <div className="w-full h-full flex flex-col justify-between">
+    <PageWrapper>
       <div className="flex justify-between">
-        <h2 className="text-gray-600 font-medium">Rent roll</h2>
+        <PageTitle title={"Rent roll"} />
         <div className="flex items-center pb-4">
           <ImportTemplateButton />
           <ImportFileButton />
         </div>
       </div>
       <UnitMixTable />
-      <Wrapper classes={"flex justify-end py-5"}>
+      <Wrapper classes={"flex justify-end"}>
         <NavigateBackButton />
         <ContinueButton goRoute={"/financing"} />
       </Wrapper>
-    </div>
+    </PageWrapper>
   );
 }

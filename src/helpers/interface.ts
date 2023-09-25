@@ -14,6 +14,7 @@ export enum CityEnum {
 }
 
 export type Inputs = {
+  lender: string;
   propertyName: string;
   addressLine: string;
   country: CountryEnum;

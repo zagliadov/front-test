@@ -1,3 +1,9 @@
+import ContinueButton from "@/components/ContinueButton/ContinueButton";
+import FinancingNavigation from "@/components/FinancingNavigation/FinancingNavigation";
+import NavigateBackButton from "@/components/NavigateBackButton/NavigateBackButton";
+import PageTitle from "@/components/PageTitle/PageTitle";
+import PageWrapper from "@/components/PageWrapper/PageWrapper";
+import { Wrapper } from "@/components/Wrapper/Wrapper";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
@@ -7,8 +13,11 @@ export const metadata: Metadata = {
 
 export default function FinancingPage() {
   return (
-    <div className="w-full h-full flex flex-col justify-between">
-      <span className="text-gray-500">Financing</span>
-    </div>
+    <PageWrapper>
+      <Wrapper classes={"flex flex-col"}>
+        <PageTitle title={"Financing"} />
+        <FinancingNavigation />
+      </Wrapper>
+    </PageWrapper>
   );
 }

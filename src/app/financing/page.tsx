@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function FinancingPage() {
   return (
-    <div>
+    <div className="w-full h-full flex flex-col justify-between">
       <span className="text-gray-500">Financing</span>
     </div>
   );

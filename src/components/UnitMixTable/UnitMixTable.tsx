@@ -1,55 +1,55 @@
 import React from "react";
 import { getRent } from "../../../services/getRent";
+import { Rent } from "@/app/api/rent/rent";
 
 export default async function UnitMixTable() {
   const rentData = await getRent();
   return (
     <div>
-      <div className="border rounded-md w-full h-[75vh] overflow-y-auto">
-        <div className="pt-2">
-          <div className="flex justify-around py-2">
-            <span className="w-full pl-5">ID</span>
-            <span className="w-full pl-5">Type</span>
-            <span className="w-full pl-5">Rent</span>
-            <span className="w-full pl-5">Width(ft)</span>
-            <span className="w-full pl-5">Length(ft)</span>
-            <span className="w-full pl-5">Market Rent</span>
-            <span className="w-full pl-5">Status</span>
-            <span className="w-full pl-5">SQFT/SQM</span>
-          </div>
-        </div>
-        <div>
-          {rentData &&
-            rentData.map(
-              ({
-                id,
-                type,
-                rent,
-                width,
-                length,
-                marketRent,
-                status,
-                sqft_sqm,
-              }: any) => {
-                return (
-                  <div key={id} className="flex justify-around">
-                    <span className="w-full border-t border-r py-6 pl-5">{id}</span>
-                    <span className="w-full border-t border-r py-6 pl-5">{type}</span>
-                    <span className="w-full border-t border-r py-6 pl-5">${rent}</span>
-                    <span className="w-full border-t border-r py-6 pl-5">{width}</span>
-                    <span className="w-full border-t border-r py-6 pl-5">{length}</span>
-                    <span className="w-full border-t border-r py-6 pl-5">
-                      {marketRent}
-                    </span>
-                    <span className="w-full border-t border-r py-6 pl-4">{status}</span>
-                    <span className="w-full border-t py-6 pl-4">{sqft_sqm}</span>
-                  </div>
-                );
-              }
-            )}
-        </div>
+      <div className="border rounded-md w-full h-[70vh] overflow-y-auto">
+        <table className="table-auto text-black w-full">
+          <thead>
+            <tr>
+              <th className="border-b p-5">ID</th>
+              <th className="border-b p-5">Type</th>
+              <th className="border-b p-5">Rent</th>
+              <th className="border-b p-5">Width(ft)</th>
+              <th className="border-b p-5">Length(ft)</th>
+              <th className="border-b p-5">Market Rent</th>
+              <th className="border-b p-5">Status</th>
+              <th className="border-b p-5">SQFT/SQM</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rentData &&
+              rentData.map(
+                ({
+                  id,
+                  type,
+                  rent,
+                  width,
+                  length,
+                  marketRent,
+                  status,
+                  sqft_sqm,
+                }: Rent) => {
+                  return (
+                    <tr key={id}>
+                      <td className="border-b border-r p-5">{id}</td>
+                      <td className="border-b border-r p-5">{type}</td>
+                      <td className="border-b border-r p-5">{rent}</td>
+                      <td className="border-b border-r p-5">{width}</td>
+                      <td className="border-b border-r p-5">{length}</td>
+                      <td className="border-b border-r p-5">{marketRent}</td>
+                      <td className="border-b border-r p-5">{status}</td>
+                      <td className="border-b border-r p-5">{sqft_sqm}</td>
+                    </tr>
+                  );
+                }
+              )}
+          </tbody>
+        </table>
       </div>
-      Table
     </div>
   );
 }

@@ -1,85 +1,143 @@
 "use client";
 
-import React, { useState } from "react";
-import DataValidationButton from "../DataValidationButton/DataValidationButton";
-import DateInput from "../DateInput/DateInput";
-import LocationSelector from "../LocationSelector/LocationSelector";
+import React from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import { Wrapper } from "../Wrapper/Wrapper";
 import { TextField } from "../TextField/TextField";
-import { FormPropertyData, NestedData } from "./interface";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import ReactDatePicker from "react-datepicker";
+import { SelectLocation } from "../SelectLocation/SelectLocation";
+import { CustomDateInput } from "../CustomDateInput/CustomDateInput";
+import { ICitiesByCountry, ICity, ICountry, Inputs } from "@/helpers/interface";
+import * as _ from "lodash";
+import ContinueButton from "../ContinueButton/ContinueButton";
+
+const countries: ICountry[] = [
+  { label: "USA", value: "us" },
+  { label: "Canada", value: "ca" },
+  { label: "United Kingdom", value: "uk" },
+];
+
+const cities: ICitiesByCountry = {
+  us: [
+    { label: "New York", value: "nyc" },
+    { label: "Los Angeles", value: "la" },
+  ],
+  ca: [
+    { label: "Toronto", value: "toronto" },
+    { label: "Vancouver", value: "vancouver" },
+  ],
+  uk: [
+    { label: "London", value: "london" },
+    { label: "Manchester", value: "manchester" },
+  ],
+};
 
 export default function PropertyDetailForm() {
-  const [value, setValue] = useLocalStorage("Data", {} as NestedData);
-  const propertyPage = value?.propertyPage;
-  
-  const defaultFormPropertyData: FormPropertyData = {
-    propertyName: "",
-    addressLine: "",
-    selectedCountry: null,
-    selectedCity: null,
-    postalCode: "",
-    startDate: new Date(),
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const [storedValue, setStoredValue] = useLocalStorage("propertyDetail", "");
+  const onSubmit: SubmitHandler<Inputs> = (data: any) => {
+    setStoredValue(data);
   };
-  
-  const [formPropertyData, setFormPropertyData] = useState<FormPropertyData>(
-    propertyPage || defaultFormPropertyData
-  );
+  let selectedCountry = storedValue?.country;
+  const city: ICity[] = _.values(
+    _.pick(cities, watch("country") || selectedCountry)
+  )[0];
 
   return (
-    <>
-      <div>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col justify-between h-full text-black"
+    >
+      <Wrapper>
         <h2 className="font-semibold text-xl text-black">Property details</h2>
         <h3 className="font-medium text-lg pt-5 text-black">Property Detail</h3>
-        <TextField
-          name={"Property name"}
-          id={"3"}
-          autoComplete={"on"}
-          placeholder={"Storage A"}
-          label={"Property name"}
-          classes={"pt-4"}
-          setter={setFormPropertyData}
-          property={"propertyName"}
-          value={propertyPage?.propertyName}
-        />
-        <TextField
-          name={"Address line"}
-          id={"4"}
-          autoComplete={"on"}
-          placeholder={"3549 102nd Avenue Cranbrook, BC V1C 2R9"}
-          label={"Address line"}
-          classes={"pt-4"}
-          setter={setFormPropertyData}
-          property={"addressLine"}
-          value={propertyPage?.addressLine}
-        />
-        <div className="flex items-center justify-between pt-4">
-          <LocationSelector
-            setter={setFormPropertyData}
-            countryValue={propertyPage?.selectedCountry}
-            cityValue={propertyPage?.selectedCity}
+        <Wrapper classes={"pb-5 pt-2"}>
+          <TextField
+            register={register}
+            errors={errors}
+            label={"Property name"}
+            propertyName={"propertyName"}
+            defaultValue={storedValue?.propertyName}
           />
-          <div className="w-3/12">
-            <TextField
-              name={"ZIP/Postal Code"}
-              id={"postalCode"}
-              autoComplete={"on"}
-              placeholder={"SE1 1AB"}
-              label={"ZIP/Postal Code"}
-              setter={setFormPropertyData}
-              property={"postalCode"}
-              value={propertyPage?.postalCode}
-            />
-          </div>
-        </div>
-        <DateInput
-          setter={setFormPropertyData}
-          value={propertyPage?.startDate}
-        />
-      </div>
-      <DataValidationButton
-        formPropertyData={formPropertyData}
-        from={"propertyPage"}
-      />
-    </>
+        </Wrapper>
+        <Wrapper classes={"pb-5 pt-2"}>
+          <TextField
+            register={register}
+            errors={errors}
+            label={"Address Line"}
+            propertyName={"addressLine"}
+            defaultValue={storedValue?.addressLine}
+          />
+        </Wrapper>
+        <Wrapper classes={"pb-5 pt-2 flex justify-around"}>
+          <SelectLocation
+            register={register}
+            label={"Country"}
+            propertyName={"country"}
+            errors={errors}
+            option={countries}
+            defaultValue={storedValue?.country}
+          />
+
+          <SelectLocation
+            register={register}
+            label={"City"}
+            propertyName={"city"}
+            errors={errors}
+            option={city}
+            defaultValue={storedValue?.city}
+          />
+
+          <TextField
+            register={register}
+            errors={errors}
+            label={"ZIP/Postal Code"}
+            propertyName={"postalCode"}
+            defaultValue={storedValue?.postalCode}
+          />
+        </Wrapper>
+        <Wrapper>
+          <Controller
+            control={control}
+            name="closeDate"
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <div className="flex flex-col relative rounded-lg shadow-sm text-gray-500 pt-5">
+                <label className="text-gray-400 text-sm">Close Date</label>
+                <ReactDatePicker
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  selected={value}
+                  customInput={
+                    <div className="relative">
+                      <CustomDateInput
+                        register={register}
+                        value={value || storedValue?.closeDate}
+                        propertyName={"closeDate"}
+                      />
+                    </div>
+                  }
+                />
+              </div>
+            )}
+          />
+        </Wrapper>
+      </Wrapper>
+      <Wrapper classes={"flex justify-end"}>
+        <ContinueButton goRoute={"/unit-mix"} />
+        {/* <input
+          type="submit"
+          className="bg-teal-950 text-white px-5 py-2 rounded-lg cursor-pointer"
+          value="Continue"
+        /> */}
+      </Wrapper>
+    </form>
   );
 }

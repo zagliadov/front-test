@@ -1,18 +1,17 @@
+import { Inputs } from "@/helpers/interface";
 import { useState } from "react";
 
-type ValueSetter<T> = T | ((prevValue: T) => T);
 /**
  * Custom hook for managing state in local storage.
  *
- * @template T - The type of data to be stored.
  * @param {string} key - The key under which the data is stored in local storage.
- * @param {T} initialValue - The initial value for the stored data.
- * @returns {[T, (value: T | ((prevValue: T) => T)) => void]} - A tuple containing the stored value and a function to set the value.
+ * @param {Inputs | string} initialValue - The initial value for the stored data.
+ * @returns {Inputs} - A tuple containing the stored value and a function to set the value.
  */
-const useLocalStorage = <T>(key: string, initialValue: T) => {
-  const [state, setState] = useState<T>(() => {
+const useLocalStorage = (key: string, initialValue: Inputs | string) => {
+  const [state, setState] = useState<Inputs>(() => {
     try {
-      const value = window.localStorage.getItem(key);
+      const value = window?.localStorage?.getItem(key);
       return value ? JSON.parse(value) : initialValue;
     } catch (error) {
       console.log(error);
@@ -22,19 +21,20 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
   /**
    * Function to set the stored value.
    *
-   * @param {T | ((prevValue: T) => T)} value - The new value to be stored.
+   * @param {Inputs | ((prevValue: Inputs) => Inputs)} value - The new value to be stored.
    */
-  const setValue = (value: ValueSetter<T>) => {
+  const setValue = (value: Inputs) => {
     try {
       const valueToStore = value instanceof Function ? value(state) : value;
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      window?.localStorage?.setItem(key, JSON.stringify(valueToStore));
       setState(valueToStore);
     } catch (error) {
       console.log(error);
     }
   };
-
   return [state, setValue] as const;
 };
 
 export default useLocalStorage;
+
+

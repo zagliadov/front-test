@@ -22,8 +22,8 @@ export default function FinancingNavigation() {
         name: newDebtName,
         content: <DebtTab debtName={newDebtName} />,
       };
-
       setTabs((prevTabs) => [...prevTabs, newTab]);
+      localStorage.setItem("debtNumber", String(tabs.length + 1));
       setActiveTab(newDebtName);
     }
   };

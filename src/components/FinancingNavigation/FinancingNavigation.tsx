@@ -1,15 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DebtTab from "./DebtTab";
 import { Wrapper } from "../Wrapper/Wrapper";
 
 export default function FinancingNavigation() {
-  const initialActiveTab: string = "Debt 1"; 
+  const initialActiveTab: string = "Debt 1";
   const [activeTab, setActiveTab] = useState<string>(initialActiveTab);
-  const [tabs, setTabs] = useState<any[]>([
-    { name: "Debt 1", content: <DebtTab debtName="Debt 1" /> },
-  ]);
+
+  const getTabsFromLocalStorage = () => {
+    const tabsLength = Number(localStorage.getItem("debtNumber"));
+    if (tabsLength) {
+      return Array.from({ length: tabsLength }, (_, index) => ({
+        name: `Debt ${index + 1}`,
+        content: <DebtTab debtName={`Debt ${index + 1}`} />,
+      }));
+    } else {
+      return [
+        { name: "Debt 1", content: <DebtTab debtName="Debt 1" /> },
+      ];
+    }
+  };
+  interface Tab {
+    name: string;
+    content: JSX.Element;
+  }
+  const [tabs, setTabs] = useState<Tab[]>([]);
+    useEffect(() => {
+      setTabs(getTabsFromLocalStorage());
+    }, []);
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
@@ -66,7 +85,9 @@ function Tab({
   return (
     <button
       className={`${
-        isActive ? "relative z-10 border-b-2 border-teal-500" : "border-b-2 border-white"
+        isActive
+          ? "relative z-10 border-b-2 border-teal-500"
+          : "border-b-2 border-white"
       }`}
       onClick={onClick}
     >

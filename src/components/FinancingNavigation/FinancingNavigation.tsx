@@ -16,9 +16,7 @@ export default function FinancingNavigation() {
         content: <DebtTab debtName={`Debt ${index + 1}`} />,
       }));
     } else {
-      return [
-        { name: "Debt 1", content: <DebtTab debtName="Debt 1" /> },
-      ];
+      return [{ name: "Debt 1", content: <DebtTab debtName="Debt 1" /> }];
     }
   };
   interface Tab {
@@ -26,9 +24,9 @@ export default function FinancingNavigation() {
     content: JSX.Element;
   }
   const [tabs, setTabs] = useState<Tab[]>([]);
-    useEffect(() => {
-      setTabs(getTabsFromLocalStorage());
-    }, []);
+  useEffect(() => {
+    setTabs(getTabsFromLocalStorage());
+  }, []);
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
